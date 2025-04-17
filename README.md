@@ -1,6 +1,6 @@
 # Frequency-Aware Gaze-based Authentication
 
-Code is based on the "[Eye Know You Too](https://dataverse.tdl.org/dataset.xhtml?persistentId=doi:10.18738/T8/61ZGZN)" paper
+Code is based on the "[Eye Know You Too](https://dataverse.tdl.org/dataset.xhtml?persistentId=doi:10.18738/T8/61ZGZN)" paper for the subject "Machine Perception and Learning" at the Uni Stuttgart 
 
 Implemented by: \
 Jonas Nasimzada \
