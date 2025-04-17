@@ -1,6 +1,6 @@
 # Frequency-Aware Gaze-based Authentication
 
-Code is based on the "Eye Know You Too" paper
+Code is based on the "[Eye Know You Too](https://dataverse.tdl.org/dataset.xhtml?persistentId=doi:10.18738/T8/61ZGZN)" paper
 
 Implemented by: \
 Jonas Nasimzada \
@@ -9,7 +9,7 @@ Louis Beaudoing \
 Pranav Abraham Mathews 
 
 ## Overview
-This is source code for our eye movement biometrics model, Eye Know You Too.
+This is the source code for our eye movement biometrics model, Eye Know You Too.
 
 ## Citation of the "Eye Know You Too" paper
 D. Lohr and O. V. Komogortsev, "Eye Know You Too: Toward Viable End-to-End Eye
