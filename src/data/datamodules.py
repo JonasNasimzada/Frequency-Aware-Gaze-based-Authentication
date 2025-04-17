@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import List, Optional, Sequence
 
 import matplotlib.pyplot as plt
+import cv2
 import numpy as np
 import pandas as pd
 import pytorch_lightning as pl
@@ -65,8 +66,7 @@ class GazeBaseDataModule(pl.LightningDataModule):
 
         self.base_dir = Path(base_dir)
         self.archive_path = self.base_dir / "gazebase.zip"
-        # self.raw_file_dir = self.base_dir / "raw"
-        self.raw_file_dir = Path("../gazebase_v3/raw")
+        self.raw_file_dir = self.base_dir / "raw"
         self.tmp_file_dir = self.base_dir / "tmp"
         self.processed_path = (
                 self.base_dir
@@ -84,7 +84,6 @@ class GazeBaseDataModule(pl.LightningDataModule):
         self.classes_per_batch = classes_per_batch
         self.samples_per_class = samples_per_class
         self.fit_batch_size = self.classes_per_batch * self.samples_per_class
-        print(f"batchsize = {self.fit_batch_size}")
         self.test_batch_size = batch_size_for_testing or self.fit_batch_size
 
         self.compute_map_at_r = compute_map_at_r
@@ -103,13 +102,9 @@ class GazeBaseDataModule(pl.LightningDataModule):
         #   self.download_and_process_gazebase()
 
     def load_img(self, x):
-        from PIL import Image
-        import cv2
         image = cv2.imread(x)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         resized_image = cv2.resize(image, (224, 224))
-        # img = Image.open(x)
-        # data = np.asarray(img, dtype="int32")
         return resized_image
 
     def setup(self, stage: Optional[str] = None) -> None:
@@ -128,26 +123,6 @@ class GazeBaseDataModule(pl.LightningDataModule):
         with open(self.processed_path, "rb") as f:
             data_dict = pickle.load(f)
             # print([v["inputs"] for k, v in data_dict.items()])
-        for split, v in data_dict.items():
-            if split not in (fold_label, "test"):
-                print("HEEEREE1")
-                print(v["inputs"][0])
-                print("HEEEREE2")
-                print(v["inputs"][1])
-                print("HEEEREE3")
-                print(len(v["inputs"]))
-                print(v["labels"].shape)
-
-                print("HEEEREE4")
-                print(v["labels"].iloc[0])
-                print()
-                print(v["labels"].iloc[1])
-                # for x in v["inputs"]:
-                #    print("HEEEREE")
-                #    print(x[0][-1])
-                #    #np.asarray(x)
-                #    break
-                break
 
         # ------------------------------------------------
         # TRAIN SPLIT: all folds except self.current_fold + no test
@@ -159,8 +134,6 @@ class GazeBaseDataModule(pl.LightningDataModule):
             if split not in (fold_label, "test")
             for x in v["inputs"]
         ]
-        print("Heeerre")
-        print(train_X[0].shape)
         train_y = pd.concat(
             [
                 v["labels"]
@@ -404,9 +377,6 @@ class GazeBaseDataModule(pl.LightningDataModule):
             ))
             plt.close()
             # ----- SPECTROGRAM LOGIC END -----
-            plot_dir = '/home/hk-project-pai00012/st_st171793/MLP/MPL_Reimplementation/spectrogram_plots'
-            img_path = os.path.join(plot_dir, f"{os.path.splitext(os.path.basename(path))[0]}_vel_combined.png")
-            inputs.append(str(img_path))
             # Parse labels from filename
             pattern_match = re.match(filename_pattern, path.stem)
             match_groups = pattern_match.groups()

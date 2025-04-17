@@ -54,8 +54,6 @@ class EyeKnowYouToo(pl.LightningModule):
         self.embeddings_path = Path(embeddings_dir) / embeddings_filename
 
     def forward(self, x):
-        print("HEERREE")
-        print(x.shape)
         out = self.embedder(x)
         return out
 
@@ -71,12 +69,8 @@ class EyeKnowYouToo(pl.LightningModule):
         embeddings = self.embedder(inputs)
         labels = metadata[:, 0]
         metric_loss = self.metric_step(embeddings, labels)
-        # class_loss = self.class_step(embeddings, labels)
-        # total_loss = metric_loss + class_loss
 
-        # self.log("train_loss", total_loss)
         self.log("train_metric_loss", metric_loss)
-        # self.log("train_class_loss", class_loss)
         return {"loss": metric_loss}
 
     def validation_step(
